@@ -1,0 +1,142 @@
+>>Format Jam
+$jam=date("H:i:s");
+===============================
+>>Combo Box Berelasi
+ <?php
+	  $s="select * from `kelas`";
+	$q=getData($conn,$s);
+		foreach($q as $d){							
+				$kls_ajar0=$d["kls_ajar"];
+				$nm_wali=$d["nm_wali"];
+	echo"<option value='$kls_ajar0' ";if($kls_ajar0==$kls_ajar){echo"selected";} echo">$kls_ajar0 - $nm_wali  </option>";
+	}
+	?>
+
+
+
+di kode_siswa ( yang di relasikan )
+getSiswa($conn,[$kode_siswa])
+=======================================================================================================
+>>Function GetData di Index
+function getGuru($conn,$kode){
+$field="nama_guru";
+$sql="SELECT `$field` FROM `guru` where `kd_guru`='$kode'";
+$rs=$conn->query($sql);	
+	$rs->data_seek(0);
+	$row = $rs->fetch_assoc();
+	$rs->free();
+    return $row[$field];
+	}
+=============================================================================================================
+>>Contoh Com Box Berdiri Sendiri
+<tr>
+<td valign="top"><label for="hari">Hari</label>
+<td valign="top">:<td colspan="2"><select name="hari" id="status">
+  <option value="-">Pilih Hari</option>
+  <option value="Senin" <?php if($hari=="Senin"){echo "selected";} ?>>Senin</option>
+  <option value="Selasa" <?php if($hari=="Selasa"){echo "selected";} ?>>Selasa</option>
+  <option value="Rabu" <?php if($hari=="Rabu"){echo "selected";} ?>>Rabu</option>
+  <option value="Kamis" <?php if($hari=="Kamis"){echo "selected";} ?>>Kamis</option>
+  <option value="Jum'at" <?php if($hari=="Jum'at"){echo "selected";} ?>>Jum'at</option>
+  <option value="Sabtu" <?php if($hari=="Sabtu"){echo "selected";} ?>>Sabtu</option>
+  <option value="Minggu" <?php if($hari=="Minggu"){echo "selected";} ?>>Minggu</option>
+</select></td></tr>
+==========================================================================================
+>>Accordion
+----------------------------------------------------------
+<link rel="stylesheet" href="js/jquery-ui.css">
+  <link rel="stylesheet" href="resources/demos/style.css">
+<script src="js/jquery-1.12.4.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#accordion" ).accordion({
+      collapsible: true
+    });
+  } );
+  </script>
+----------------------------------------------------------
+>>Di atas tabel Input
+<div id="accordion">
+  <h3>Input Data User</h3>
+  <div>
+
+>>Di atas Data User
+</div>
+  <h3>Data User</h3>
+  <div>
+<br />
+
+>>Di atas if(isset($_POST["Simpan])){
+</div>
+</div>
+ 
+</body>
+=====================================================================================================
+>>fungsi
+
+<?php
+$mnu=$_GET["mnu"];
+?>
+
+<?php
+//";if($mnu=="home"){echo"class='current'";} echo"	
+      echo"
+	  <li><a href='index.php?mnu=home'>Home</a></li>
+      	  <li><a href='index.php?mnu=admin'>Admin</a></li>
+	  <li><a href='index.php?mnu=mahasiswa'>Mahasiswa</a></li>
+";
+
+?>
+
+<?php 			
+if($mnu=="admin"){require_once"admin/admin.php";}
+else if($mnu=="mahasiswa"){require_once"mahasiswa/mahasiswa.php";}
+
+else {require_once"home.php";}
+				
+?>
+
+    <?php
+	if($mnu=="admin"){}
+else if($mnu=="customer"){}
+else if($mnu=="drone"){}
+else if($mnu=="galeri"){}
+else if($mnu=="pembayaran"){}
+else if($mnu=="sewa"){}
+else if($mnu=="sewadetail"){}
+else if($mnu=="spesifi"){}
+else if($mnu=="testimoni"){}
+else if($mnu=="csewa"){}
+else if($mnu=="mychat"){}
+
+else {
+	require_once"footer.php";
+}
+	?>
+=============================================================================================================
+>>Distinc
+  <?php  
+  $sqlq="select distinct(kls_ajar) from `$tbpengampu` order by `kd_pengampu` desc";
+  $jumq=getJum($conn,$sqlq);
+		if($jumq <1){
+			echo"<h1>Maaf data belum tersedia...</h1>";
+			}								
+	$arrq=getData($conn,$sqlq);
+		foreach($arrq as $dq) {							
+				$kls_ajar=$dq["kls_ajar"];
+
+?>     
+   <h2><a href="#">Data Kelas <?php echo"$kls_ajar";?></a></h2>
+
+  <div>
+++++++++++++++++++++++++
+ $sql="select * from `$tbpengampu` where kls_ajar='$kls_ajar' order by `kd_pengampu` desc";
+++++++++++++++++++++++++
+	echo "</div>";
+		}
+?>
+ </div>
+</body>
+
+ class="table table-striped table-bordered table-hover"

@@ -1,0 +1,369 @@
+<?php
+if (version_compare(phpversion(), "5.3.0", ">=")  == 1)
+  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+else
+  error_reporting(E_ALL & ~E_NOTICE);  
+  ?>
+<?php
+session_start();
+//error_reporting(0);
+require_once"konmysqli.php";
+
+if(!isset($_SESSION["cid"])){
+die("<script>location.href='login.php';</script>");
+}
+
+$mnu=$_GET["mnu"];
+date_default_timezone_set("Asia/Jakarta");
+
+?>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kaligrafi Kulit Kambing</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+
+    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <!-- Left Panel -->
+
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+            </div>
+
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <?php
+
+if($_SESSION["cstatus"]=="Customer"){	
+      echo"
+	  <li><a href='index.php?mnu=home'><i class='menu-icon fa fa-dashboard'></i>Home</a></li>
+      <li><a href='index.php?mnu=cprofil'><i class='menu-icon fa fa-dashboard'></i>Profile</a></li>
+	  <li><a href='index.php?mnu=products'><i class='menu-icon fa fa-dashboard'></i>Product</a></li>
+	  <li><a href='index.php?mnu=cart'><i class='menu-icon fa fa-dashboard'></i>Cart</a></li>
+	  <li><a href='index.php?mnu=checkout'><i class='menu-icon fa fa-dashboard'></i>Checkout</a></li>
+      <li><a href='index.php?mnu=logout'><i class='menu-icon fa fa-dashboard'></i>Logout</a></li>";
+}
+else{
+	 echo"<li><a href='index.php?mnu=home'><i class='menu-icon fa fa-dashboard'></i>Home</a></li>";
+	 echo"<li><a href='index.php?mnu=profile'><i class='menu-icon fa fa-dashboard'></i>Profile</a></li>";
+	 echo"<li><a href='index.php?mnu=products'><i class='menu-icon fa fa-dashboard'></i>Product</a></li>";
+	 echo"<li><a href='index.php?mnu=contact'><i class='menu-icon fa fa-dashboard'></i>Contact</a></li>";
+	 echo"<li><a href='index.php?mnu=howtoorder'><i class='menu-icon fa fa-dashboard'></i>How to Order</a></li>";
+	 echo"<li><a href='index.php?mnu=registrasi'><i class='menu-icon fa fa-dashboard'></i>Register</a></li>";
+	 echo"<li><a href='index.php?mnu=login'><i class='menu-icon fa fa-dashboard'></i>Login</a></li>";	 
+	}
+      ?>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->
+
+    <!-- Left Panel -->
+
+    <!-- Right Panel -->
+
+    <div id="right-panel" class="right-panel">
+
+        <!-- Header-->
+        <header id="header" class="header">
+
+            <div class="header-menu">
+
+                
+                <div class="col-sm-12">
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
+
+                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+        </header><!-- /header -->
+        <!-- Header-->
+
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Table</a></li>
+                            <li class="active">Data table</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">Data Table</strong>
+                            </div>
+                            <div class="card-body">
+                                <?php	
+     echo"<h2> ".strtoupper($mnu)."</h2><br>"; 
+       
+if($mnu=="admin"){require_once"admin/admin.php";}
+else if($mnu=="customer"){require_once"customer/customer.php";}
+else if($mnu=="product"){require_once"product/product.php";}
+else if($mnu=="products"){require_once"product/cproduct.php";}
+else if($mnu=="productdetail"){require_once"product/cproductdetail.php";}
+else if($mnu=="order"){require_once"order/order.php";}
+else if($mnu=="cprofil"){require_once"customer/cprofil.php";}
+else if($mnu=="registrasi"){require_once"customer/registrasi.php";}
+else if($mnu=="cprofil2"){require_once"customer/cprofil2.php";}
+else if($mnu=="orderdetail"){require_once"orderdetail/orderdetail.php";}
+else if($mnu=="konfirmasi"){require_once"konfirmasi/konfirmasi.php";}
+else if($mnu=="ckonfirmasi"){require_once"ckonfirmasi.php";}
+else if($mnu=="cart"){require_once"cart.php";}
+else if($mnu=="checkout"){require_once"checkout.php";}
+else if($mnu=="cetaktransaki"){require_once"cetaktransaki.php";}
+else if($mnu=="contact"){require_once"contact.php";}
+else if($mnu=="profile"){require_once"profile.php";}
+else if($mnu=="howtoorder"){require_once"caraorder.php";}
+else if($mnu=="login"){require_once"login.php";}
+else if($mnu=="logout"){require_once"logout.php";}
+else {require_once"home.php";}
+
+
+?> 
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+
+
+    </div><!-- /#right-panel -->
+
+    <!-- Right Panel -->
+
+
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+
+    <script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="vendors/jszip/dist/jszip.min.js"></script>
+    <script src="vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="assets/js/init-scripts/data-table/datatables-init.js"></script>
+
+
+</body>
+
+</html>
+
+<?php function RP($rupiah){return number_format($rupiah,"2",",",".");}?>
+<?php
+function WKT($sekarang){
+$tanggal = substr($sekarang,8,2)+0;
+$bulan = substr($sekarang,5,2);
+$tahun = substr($sekarang,0,4);
+
+$judul_bln=array(1=> "Januari", "Februari", "Maret", "April", "Mei","Juni", "Juli", "Agustus", "September","Oktober", "November", "Desember");
+$wk=$tanggal." ".$judul_bln[(int)$bulan]." ".$tahun;
+return $wk;
+}
+?>
+<?php
+function WKTP($sekarang){
+$tanggal = substr($sekarang,8,2)+0;
+$bulan = substr($sekarang,5,2);
+$tahun = substr($sekarang,2,2);
+
+$judul_bln=array(1=> "Jan", "Feb", "Mar", "Apr", "Mei","Jun", "Jul", "Agu", "Sep","Okt", "Nov", "Des");
+$wk=$tanggal." ".$judul_bln[(int)$bulan]."'".$tahun;
+return $wk;
+}
+?>
+<?php
+function BAL($tanggal){
+	$arr=explode(" ",$tanggal);
+	if($arr[1]=="Januari"||$arr[1]=="January"){$bul="01";}
+	else if($arr[1]=="Februari"||$arr[1]=="February"){$bul="02";}
+	else if($arr[1]=="Maret"||$arr[1]=="March"){$bul="03";}
+	else if($arr[1]=="April"){$bul="04";}
+	else if($arr[1]=="Mei"||$arr[1]=="May"){$bul="05";}
+	else if($arr[1]=="Juni"||$arr[1]=="June"){$bul="06";}
+	else if($arr[1]=="Juli"||$arr[1]=="July"){$bul="07";}
+	else if($arr[1]=="Agustus"||$arr[1]=="August"){$bul="08";}
+	else if($arr[1]=="September"){$bul="09";}
+	else if($arr[1]=="Oktober"||$arr[1]=="October"){$bul="10";}
+	else if($arr[1]=="November"){$bul="11";}
+	else if($arr[1]=="Nopember"){$bul="11";}
+	else if($arr[1]=="Desember"||$arr[1]=="December"){$bul="12";}
+return "$arr[2]-$bul-$arr[0]";	
+}
+?>	
+
+
+<?php
+function BALP($tanggal){
+	$arr=split(" ",$tanggal);
+	if($arr[1]=="Jan"){$bul="01";}
+	else if($arr[1]=="Feb"){$bul="02";}
+	else if($arr[1]=="Mar"){$bul="03";}
+	else if($arr[1]=="Apr"){$bul="04";}
+	else if($arr[1]=="Mei"){$bul="05";}
+	else if($arr[1]=="Jun"){$bul="06";}
+	else if($arr[1]=="Jul"){$bul="07";}
+	else if($arr[1]=="Agu"){$bul="08";}
+	else if($arr[1]=="Sep"){$bul="09";}
+	else if($arr[1]=="Okt"){$bul="10";}
+	else if($arr[1]=="Nov"){$bul="11";}
+	else if($arr[1]=="Nop"){$bul="11";}
+	else if($arr[1]=="Des"){$bul="12";}
+return "$arr[2]-$bul-$arr[0]";	
+}
+?>
+
+
+<?php
+function process($conn,$sql){
+$s=false;
+$conn->autocommit(FALSE);
+try {
+  $rs = $conn->query($sql);
+  if($rs){
+	    $conn->commit();
+	    $last_inserted_id = $conn->insert_id;
+ 		$affected_rows = $conn->affected_rows;
+  		$s=true;
+  }
+} 
+catch (Exception $e) {
+	echo 'fail: ' . $e->getMessage();
+  	$conn->rollback();
+}
+$conn->autocommit(TRUE);
+return $s;
+}
+
+function getJum($conn,$sql){
+  $rs=$conn->query($sql);
+  $jum= $rs->num_rows;
+	$rs->free();
+	return $jum;
+}
+
+function getField($conn,$sql){
+	$rs=$conn->query($sql);
+	$rs->data_seek(0);
+	$d= $rs->fetch_assoc();
+	$rs->free();
+	return $d;
+}
+
+function getData($conn,$sql){
+	$rs=$conn->query($sql);
+	$rs->data_seek(0);
+	$arr = $rs->fetch_all(MYSQLI_ASSOC);
+	//foreach($arr as $row) {
+	//  echo $row['nama_kelas'] . '*<br>';
+	//}
+	
+	$rs->free();
+	return $arr;
+}
+
+function getAdmin($conn,$kode){
+$field="username";
+$sql="SELECT `$field` FROM `tb_admin` where `kode_admin`='$kode'";
+$rs=$conn->query($sql);	
+	$rs->data_seek(0);
+	$row = $rs->fetch_assoc();
+	$rs->free();
+    return $row[$field];
+	}
+
+function getCustomer($conn,$kode){
+$field="nama_customer";
+$sql="SELECT `$field` FROM `tb_customer` where `id_customer`='$kode'";
+$rs=$conn->query($sql);	
+	$rs->data_seek(0);
+	$row = $rs->fetch_assoc();
+	$rs->free();
+    return $row[$field];
+	}
+
+function getProduct($conn,$kode){
+$field="nama_product";
+$sql="SELECT `$field` FROM `tb_product` where `id_product`='$kode'";
+$rs=$conn->query($sql);	
+	$rs->data_seek(0);
+	$row = $rs->fetch_assoc();
+	$rs->free();
+    return $row[$field];
+	}
+
+?>
